@@ -1,58 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Project Title
+Laravel Students API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description
+This is a simple API project built using Laravel with SQLite as the database. The API handles basic CRUD operations for a Students record system. Each student has a name, email, and course. All endpoints were tested using the Postman extension inside Visual Studio Code.
+This project was created as a hands-on exercise to understand how REST APIs work in Laravel, including routing, controllers, models, migrations, and request validation.
 
-## About Laravel
+## Setup Instructions
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Step 1 - Create the project
+composer create-project laravel/laravel api-call
+cd api-call
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Step 2 - Configure the database
+Open the .env file and change DB_CONNECTION to sqlite. Remove the DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, and DB_PASSWORD lines.
+On Windows PowerShell, create the SQLite file using:
+New-Item database/database.sqlite
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Step 3 - Install API scaffolding
+php artisan install:api
+When prompted, type yes to run migrations.
 
-## Learning Laravel
+Step 4 - Set up routes
+Open routes/api.php and replace the content with the following:
+Route::get('/students', [StudentsController::class, 'index']);
+Route::get('/students/{id}', [StudentsController::class, 'show']);
+Route::post('/students', [StudentsController::class, 'store']);
+Route::put('/students/{id}', [StudentsController::class, 'update']);
+Route::patch('/students/{id}', [StudentsController::class, 'patch']);
+Route::delete('/students', [StudentsController::class, 'destroyAll']);
+Route::delete('/students/{id}', [StudentsController::class, 'destroy']);
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Step 5 - Create the Student model
+php artisan make:model Student
+Inside Student.php, add name, email, and course to the $fillable array.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Step 6 - Create and run the migration
+php artisan make:migration create_students_table
+Add the columns (id, name, email unique, course, timestamps) in the migration file, then run:
+php artisan migrate
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Step 7 - Create the controller
+php artisan make:controller StudentsController
+Add the index, show, store, update, patch, destroy, and destroyAll methods inside the controller.
 
-## Agentic Development
+Step 8 - Run the server
+php artisan serve
+The API will be available at: http://127.0.0.1:8000/api/students
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## API Endpoints
 
-```bash
-composer require laravel/boost --dev
+GET    /api/students  — Returns a list of all students
+GET    /api/students/{id}  — Returns a single student by ID
+POST   /api/students  — Creates a new student record
+PUT    /api/students/{id}  — Updates all fields of an existing student
+PATCH  /api/students/{id}  — Updates only specific fields of a student
+DELETE /api/students  — Deletes all student records
+DELETE /api/students/{id}  — Deletes one student by ID
 
-php artisan boost:install
-```
+## Demonstration
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+https://drive.google.com/drive/folders/1gG-3lrgVOr6Ex8T8Dx5pfRNSwzw5MK1k?usp=sharing
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
